@@ -47,7 +47,6 @@ extract( $args );
 			settings_fields( $options_group_id );
 
 			if ( ! empty( $tabs ) ) {
-
 				// tabs
 				foreach ( $tabs[ $active_tab ][ 'sections' ] as $section_slug => $section ) {
 
@@ -62,10 +61,7 @@ extract( $args );
 					) );
 
 				}
-
-			}
-			elseif ( ! empty( $sections ) ) {
-
+			} elseif ( ! empty( $sections ) ) {
 				// no tabs, only sections
 				foreach ( $sections as $section_slug => $section ) {
 
@@ -80,7 +76,6 @@ extract( $args );
 					) );
 
 				}
-
 			}
 
 			submit_button( 'Save Settings' );

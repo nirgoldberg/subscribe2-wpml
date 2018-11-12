@@ -168,6 +168,7 @@ function s2wpml_admin_display_radio_form_element( $args ) {
 		$iterator		= 0;
 
 		foreach ( $args[ 'options' ] as $key => $label ) {
+
 			$iterator++;
 			$options_markup .=	sprintf( '<label for="%1$s_%6$s"><input id="%1$s_%6$s" name="%1$s[]" type="%2$s" value="%3$s" %4$s /> %5$s</label><br/>',
 				$args[ 'uid' ],
@@ -177,6 +178,7 @@ function s2wpml_admin_display_radio_form_element( $args ) {
 				$label,
 				$iterator
 			);
+
 		}
 
 		printf( '<fieldset>%s</fieldset>', $options_markup );
@@ -184,3 +186,20 @@ function s2wpml_admin_display_radio_form_element( $args ) {
 	}
 
 }
+
+/**
+ * s2wpml_admin_update_option_general_default_lang
+ *
+ * This function will assign the default language(s) for already registered subscribers
+ *
+ * @since		1.0.0
+ * @param		$old_value (mixed)
+ * @param		$new_value (mixed)
+ * @return		N/A
+ */
+function s2wpml_admin_update_option_general_default_lang( $old_value, $new_value ) {
+
+	s2wpml_core()->assign_default_lang();
+
+}
+add_action( 'update_option_s2wpml_general_default_lang', 's2wpml_admin_update_option_general_default_lang', 10, 2 );

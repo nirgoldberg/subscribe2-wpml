@@ -9,9 +9,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 's2wpml_admin_settings_page' ) ) :
+if ( ! class_exists( 'S2WPML_Admin_Settings_Page' ) ) :
 
-class s2wpml_admin_settings_page {
+class S2WPML_Admin_Settings_Page {
 
 	/**
 	 * vars
@@ -216,9 +216,7 @@ class s2wpml_admin_settings_page {
 
 		// set active tab
 		if ( isset( $_GET[ 'tab' ] ) && $_GET[ 'tab' ] != '' && array_key_exists( $_GET[ 'tab' ], $view[ 'tabs' ] ) ) {
-
 			$view[ 'active_tab' ] = $_GET[ 'tab' ];
-
 		}
 
 		// load view
@@ -244,7 +242,6 @@ class s2wpml_admin_settings_page {
 
 		// setup sections
 		if ( ! empty( $tabs ) ) {
-
 			// tabs
 			foreach ( $tabs as $tab_slug => $tab ) {
 				foreach ( $tab[ 'sections' ] as $section_slug => $section_title ) {
@@ -258,10 +255,7 @@ class s2wpml_admin_settings_page {
 
 				}
 			}
-
-		}
-		elseif ( ! empty( $sections ) ) {
-
+		} elseif ( ! empty( $sections ) ) {
 			// no tabs, only sections
 			foreach ( $sections as $section_slug => $section ) {
 
@@ -273,7 +267,6 @@ class s2wpml_admin_settings_page {
 				$this->setup_section( $section_id, $options_group_id );
 
 			}
-
 		}
 
 	}
@@ -327,8 +320,7 @@ class s2wpml_admin_settings_page {
 				$options_group_id	= $slug . '-' . $field[ 'tab' ];
 				$section_id			= $field[ 'tab' ] . '-' . $field[ 'section' ];
 
-			}
-			elseif ( ! empty( $sections ) ) {
+			} elseif ( ! empty( $sections ) ) {
 
 				// no tabs, only sections
 				$options_group_id	= $slug;

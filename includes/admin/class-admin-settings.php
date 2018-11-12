@@ -9,9 +9,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 's2wpml_admin_settings' ) ) :
+if ( ! class_exists( 'S2WPML_Admin_Settings' ) ) :
 
-class s2wpml_admin_settings extends s2wpml_admin_settings_page {
+class S2WPML_Admin_Settings extends S2WPML_Admin_Settings_Page {
 
 	/**
 	 * initialize
@@ -61,6 +61,16 @@ class s2wpml_admin_settings extends s2wpml_admin_settings_page {
 			// fields
 			'fields'				=> array(
 				array(
+					'uid'			=> 's2wpml_general_default_lang',
+					'label'			=> 'Default Language(s)',
+					'label_for'		=> 's2wpml_general_default_lang',
+					'tab'			=> 'general',
+					'section'		=> 'general',
+					'type'			=> 'checkbox',
+					'options'		=> s2wpml_get_active_languages(),
+					'helper'		=> __( 'Used to assign default language(s) for already registered subscribers', 's2wpml' )
+				),
+				array(
 					'uid'			=> 's2wpml_uninstall_remove_data',
 					'label'			=> 'Remove Data on Uninstall',
 					'label_for'		=> 's2wpml_uninstall_remove_data',
@@ -81,6 +91,6 @@ class s2wpml_admin_settings extends s2wpml_admin_settings_page {
 }
 
 // initialize
-new s2wpml_admin_settings();
+new S2WPML_Admin_Settings();
 
 endif; // class_exists check

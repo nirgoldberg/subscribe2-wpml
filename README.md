@@ -1,6 +1,6 @@
 # Subscribe2 WPML
 
-Welcome to *Subscribe2 WPML* repository on GitHub. 
+Welcome to *Subscribe2 WPML* repository on GitHub.  
 *S2WPML* is a WordPress plugin which extends Subscribe2 with WPML capabilities.
 
 ## Documentation
@@ -13,7 +13,7 @@ Welcome to *Subscribe2 WPML* repository on GitHub.
 
 ## Support
 
-This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core issues only. 
+This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core issues only.  
 For support requests, please use the following channels:
 
 * ...

@@ -116,9 +116,7 @@ function s2wpml_include( $file ) {
 	$path = s2wpml_get_path( $file );
 
 	if ( file_exists( $path ) ) {
-
 		include_once( $path );
-
 	}
 
 }
@@ -139,9 +137,7 @@ function s2wpml_get_view( $view_name = '', $args = array() ) {
 	$path = s2wpml_get_path( "includes/admin/views/{$view_name}.php" );
 
 	if( file_exists( $path ) ) {
-
 		include( $path );
-
 	}
 
 }
@@ -218,5 +214,34 @@ function s2wpml_parse_markdown( $text = '' ) {
 
 	// return
 	return $text;
+
+}
+
+/**
+ * s2wpml_get_active_languages
+ *
+ * This function will return array of language code and language native name
+ *
+ * @since		1.0.0
+ * @param		N/A
+ * @return		(array)
+ */
+function s2wpml_get_active_languages() {
+
+	if ( ! function_exists( 'icl_get_languages' ) )
+		return;
+
+	// vars
+	$languages	= icl_get_languages( 'skip_missing=0&orderby=custom' );
+	$lang_arr	= array();
+
+	if ( $languages ) {
+		foreach ( $languages as $code => $lang ) {
+			$lang_arr[ $code ] = $lang[ 'native_name' ];
+		}
+	}
+
+	// return
+	return $lang_arr;
 
 }

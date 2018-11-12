@@ -12,10 +12,8 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit; // Exi
 $remove_data = get_option( 's2wpml_uninstall_remove_data' );
 
 if ( $remove_data && in_array( 'remove', $remove_data ) ) {
-
 	// remove plugin data
 	s2wpml_remove_data();
-
 }
 
 /**
@@ -50,13 +48,12 @@ function s2wpml_remove_options_data() {
 
 	// vars
 	$options = array(
+		's2wpml_general_default_lang'
 		's2wpml_uninstall_remove_data'
 	);
 
 	foreach ( $options as $option ) {
-
 		delete_option( $option );
-
 	}
 
 }
@@ -78,15 +75,22 @@ function s2wpml_remove_db_data() {
 	// vars
 	$table = $wpdb->prefix . 'subscribe2';
 
-	$row = $wpdb->get_results(
+	$lang_col = $wpdb->get_results(
 		"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
-		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 'lang'"
+		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_lang'"
 	);
 
-	if( ! empty( $row ) ) {
+	$status_col = $wpdb->get_results(
+		"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_status'"
+	);
 
-		$wpdb->query( "ALTER TABLE $table DROP COLUMN lang" );
+	if( ! empty( $lang_col ) ) {
+		$wpdb->query( "ALTER TABLE $table DROP COLUMN s2wpml_lang" );
+	}
 
+	if( ! empty( $status_col ) ) {
+		$wpdb->query( "ALTER TABLE $table DROP COLUMN s2wpml_status" );
 	}
 
 }

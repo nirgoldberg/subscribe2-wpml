@@ -20,9 +20,9 @@ class S2WPML {
 	/**
 	 * vars
 	 *
-	 * @var (string) plugin version number
-	 * @var (array) required plugins must be active for S2WPML
-	 * @var (array) plugin settings array
+	 * @var $version (string) plugin version number
+	 * @var required_plugins (array) required plugins must be active for S2WPML
+	 * @var $settings (array) plugin settings array
 	 */
 	var $version = '1.0.0';
 
@@ -114,12 +114,48 @@ class S2WPML {
 		}
 
 		// actions
-		add_action( 'init', array( $this, 'init' ), 5 );
-		add_action( 'init', array( $this, 'register_assets' ), 5 );
+		add_action( 'plugins_loaded',	array( $this, 'plugins_loaded' ), 5 );
+		add_action( 'init',				array( $this, 'init' ), 5 );
+		add_action( 'init',				array( $this, 'register_assets' ), 5 );
 
 		// plugin activation / deactivation
 		register_activation_hook	( __FILE__,	array( $this, 's2wpml_activate' ) );
 		register_deactivation_hook	( __FILE__,	array( $this, 's2wpml_deactivate' ) );
+
+	}
+
+	/**
+	* plugins_loaded
+	*
+	* This function will run after all plugins and theme functions have been included
+	*
+	* @since		1.0.0
+	* @param		N/A
+	* @return		N/A
+	*/
+	function plugins_loaded() {
+
+		// exit if called too early
+		if ( ! did_action( 'plugins_loaded' ) )
+			return;
+
+		// admin
+		if ( is_admin() ) {
+
+			// globals
+			global $mysubscribe2;
+
+			if ( ! is_null( $mysubscribe2 ) ) {
+
+				remove_action( 'plugins_loaded', array( $mysubscribe2, 's2init' ) );
+				$mysubscribe2 = null;
+
+				// classes
+				s2wpml_include( 'includes/classes/class-s2wpml-admin.php' );
+
+			}
+
+		}
 
 	}
 
@@ -154,6 +190,7 @@ class S2WPML {
 		// admin
 		if ( is_admin() ) {
 
+			// admin
 			s2wpml_include( 'includes/admin/class-admin-settings-page.php' );
 			s2wpml_include( 'includes/admin/class-admin-settings.php' );
 
@@ -185,9 +222,7 @@ class S2WPML {
 
 		// register styles
 		foreach( $styles as $handle => $style ) {
-
 			wp_register_style( $handle, $style[ 'src' ], $style[ 'deps' ], S2WPML_VERSION );
-
 		}
 
 	}
@@ -313,10 +348,8 @@ class S2WPML {
 	function s2wpml_activate() {
 
 		if ( $this->check_required_plugins() ) {
-
-			// alter subscribe2 table - add lang column
-			s2wpml_core()->alter_table_add_lang();
-
+			// extend subscribe2 table
+			s2wpml_core()->extend_subscribe2_table();
 		}
 
 	}
@@ -432,8 +465,7 @@ class S2WPML {
 
 			if ( file_exists( plugin_dir_path( __DIR__ ) . $path ) ) {
 				$name = get_plugin_data( plugin_dir_path( __DIR__ ) . $path )[ 'Name' ];
-			}
-			else {
+			} else {
 				$name = $plugin;
 			}
 
@@ -465,7 +497,6 @@ function s2wpml() {
 	if( ! isset( $s2wpml ) ) {
 
 		$s2wpml = new S2WPML();
-
 		$s2wpml->initialize();
 
 	}

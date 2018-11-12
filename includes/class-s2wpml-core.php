@@ -29,15 +29,17 @@ class S2WPML_Core {
 	}
 
 	/**
-	* alter_table_add_lang
+	* extend_subscribe2_table
 	*
-	* alter table subscribe2 - add lang column
+	* This function will extend the subscribe2 table:
+	* alter table - add s2wpml_lang column
+	* alter table - add s2wpml_status column
 	*
 	* @since		1.0.0
 	* @param		N/A
 	* @return		N/A
 	*/
-	function alter_table_add_lang() {
+	function extend_subscribe2_table() {
 
 		// globals
 		global $wpdb;
@@ -45,16 +47,48 @@ class S2WPML_Core {
 		// vars
 		$table = $wpdb->prefix . s2wpml_get_setting( 'table_name' );
 
-		$row = $wpdb->get_results(
+		$lang_col = $wpdb->get_results(
 			"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
-			 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 'lang'"
+			 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_lang'"
 		);
 
-		if( empty( $row ) ) {
+		$status_col = $wpdb->get_results(
+			"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+			 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_status'"
+		);
 
-			$wpdb->query( "ALTER TABLE $table ADD COLUMN lang VARCHAR(64) NOT NULL DEFAULT '' AFTER email" );
-
+		if( empty( $lang_col ) ) {
+			$wpdb->query( "ALTER TABLE $table ADD COLUMN s2wpml_lang VARCHAR(64) NOT NULL DEFAULT ''" );
 		}
+
+		if( empty( $status_col ) ) {
+			$wpdb->query( "ALTER TABLE $table ADD COLUMN s2wpml_status TINYINT(1) NOT NULL DEFAULT 0" );
+		}
+
+	}
+
+	/**
+	* assign_default_lang
+	*
+	* This function will assign the default language(s) for already registered subscribers.
+	* This function will be called right after updating the default language option
+	*
+	* @since		1.0.0
+	* @param		N/A
+	* @return		N/A
+	*/
+	function assign_default_lang() {
+
+		// globals
+		global $wpdb;
+
+		// vars
+		$table			= $wpdb->prefix . s2wpml_get_setting( 'table_name' );
+		$default_lang	= get_option( 's2wpml_general_default_lang' );
+		$default_lang	= implode( ',', (array)$default_lang );
+
+		$query = "UPDATE $table SET s2wpml_lang='$default_lang' WHERE s2wpml_status=0";
+		$wpdb->query( $query );
 
 	}
 
@@ -76,9 +110,7 @@ function s2wpml_core() {
 
 	// initialize
 	if( ! isset( $s2wpml_core ) ) {
-
 		$s2wpml_core = new S2WPML_Core();
-
 	}
 
 	// return
