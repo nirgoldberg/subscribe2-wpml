@@ -32,6 +32,7 @@ class S2WPML_List_Table extends S2_List_Table {
 			switch ( $column_name ) {
 				case 'email':
 				case 's2wpml_lang':
+				case 's2wpml_cat':
 				case 'date':
 					return $item[ $column_name ];
 			}
@@ -65,6 +66,7 @@ class S2WPML_List_Table extends S2_List_Table {
 				'cb'			=> '<input type="checkbox" />',
 				'email'			=> _x( 'Email', 'column name', 'subscribe2' ),
 				's2wpml_lang'	=> _x( 'Languages', 'column name', 's2wpml' ),
+				's2wpml_cat'	=> _x( 'Categories', 'column name', 's2wpml' ),
 				'date'			=> _x( 'Date', 'column name', 'subscribe2' ),
 			);
 		}
@@ -92,6 +94,7 @@ class S2WPML_List_Table extends S2_List_Table {
 			$sortable_columns = array(
 				'email'			=> array( 'email', true ),
 				's2wpml_lang'	=> array( 's2wpml_lang', false ),
+				's2wpml_cat'	=> array( 's2wpml_cat', false ),
 				'date'			=> array( 'date', false ),
 			);
 		}
@@ -130,6 +133,7 @@ class S2WPML_List_Table extends S2_List_Table {
 				$data[] = array(
 					'email'			=> $email,
 					's2wpml_lang'	=> $mysubscribe2->pretty_signup_lang( $email ),
+					's2wpml_cat'	=> $mysubscribe2->pretty_signup_cat( $email ),
 					'date'			=> $mysubscribe2->signup_date( $email ),
 				);
 			}

@@ -42,10 +42,6 @@ function s2wpml_admin_display_form_element( $args ) {
 			s2wpml_admin_display_radio_form_element( $args );
 			break;
 
-		case 'truefalse':
-			s2wpml_admin_display_truefalse_form_element( $args );
-			break;
-
 	}
 
 	// If there is helper text
@@ -202,4 +198,38 @@ function s2wpml_admin_update_option_general_default_lang( $old_value, $new_value
 	s2wpml_core()->assign_default_lang();
 
 }
-add_action( 'update_option_s2wpml_general_default_lang', 's2wpml_admin_update_option_general_default_lang', 10, 2 );
+add_action( 'add_option_s2wpml_general_default_lang',		's2wpml_admin_update_option_general_default_lang', 10, 2 );
+add_action( 'update_option_s2wpml_general_default_lang',	's2wpml_admin_update_option_general_default_lang', 10, 2 );
+
+/**
+ * s2wpml_admin_update_option_general_default_cat
+ *
+ * This function will assign the default categories for registered subscribers
+ *
+ * @since		1.0.0
+ * @param		$old_value (mixed)
+ * @param		$new_value (mixed)
+ * @return		N/A
+ */
+function s2wpml_admin_update_option_general_default_cat( $old_value, $new_value ) {
+
+	s2wpml_core()->assign_default_cat();
+
+}
+// add action for each active language
+$langs = s2wpml_get_active_languages();
+
+if ( $langs ) {
+	foreach ( $langs as $key => $lang ) {
+
+		add_action( 'add_option_s2wpml_general_default_cat_' . $key,	's2wpml_admin_update_option_general_default_cat', 10, 2 );
+		add_action( 'update_option_s2wpml_general_default_cat_' . $key,	's2wpml_admin_update_option_general_default_cat', 10, 2 );
+
+	}
+}
+else {
+
+	add_action( 'add_option_s2wpml_general_default_cat',	's2wpml_admin_update_option_general_default_cat', 10, 2 );
+	add_action( 'update_option_s2wpml_general_default_cat',	's2wpml_admin_update_option_general_default_cat', 10, 2 );
+
+}

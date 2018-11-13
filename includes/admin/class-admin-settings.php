@@ -71,6 +71,16 @@ class S2WPML_Admin_Settings extends S2WPML_Admin_Settings_Page {
 					'helper'		=> __( 'Used to assign default language(s) for already registered subscribers', 's2wpml' )
 				),
 				array(
+					'uid'			=> 's2wpml_general_default_cat' . ( defined( 'ICL_LANGUAGE_CODE' ) ? '_' . ICL_LANGUAGE_CODE : '' ),
+					'label'			=> 'Default Categories',
+					'label_for'		=> 's2wpml_general_default_cat' . ( defined( 'ICL_LANGUAGE_CODE' ) ? '_' . ICL_LANGUAGE_CODE : '' ),
+					'tab'			=> 'general',
+					'section'		=> 'general',
+					'type'			=> 'checkbox',
+					'options'		=> s2wpml_get_categories(),
+					'helper'		=> __( 'Used to assign default post categories', 's2wpml' )
+				),
+				array(
 					'uid'			=> 's2wpml_uninstall_remove_data',
 					'label'			=> 'Remove Data on Uninstall',
 					'label_for'		=> 's2wpml_uninstall_remove_data',

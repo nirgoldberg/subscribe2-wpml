@@ -11,6 +11,13 @@ Welcome to *Subscribe2 WPML* repository on GitHub.
 
 *Subscribe2 WPML* plugin is licensed under the GPLv3.
 
+## Prerequisites
+
+This plugin requires 2 pre installed and activated plugins:
+
+* Subscribe2 (at least: 10.22.1)
+* WPML Multilingual CMS (at least: 3.2)
+
 ## Support
 
 This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core issues only.  

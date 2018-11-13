@@ -245,3 +245,33 @@ function s2wpml_get_active_languages() {
 	return $lang_arr;
 
 }
+
+/**
+ * s2wpml_get_categories
+ *
+ * This function will return array of category ID and category name
+ *
+ * @since		1.0.0
+ * @param		N/A
+ * @return		(array)
+ */
+function s2wpml_get_categories() {
+
+	// vars
+	$categories	= get_terms( array(
+		'taxonomy'		=> 'category',
+		'hide_empty'	=> false
+	) );
+
+	$cat_arr = array();
+
+	if ( $categories ) {
+		foreach ( $categories as $cat ) {
+			$cat_arr[ 'cat_' . $cat->term_id ] = $cat->name;
+		}
+	}
+
+	// return
+	return $cat_arr;
+
+}

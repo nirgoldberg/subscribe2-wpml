@@ -72,7 +72,7 @@ class S2WPML_Admin_Settings_Page {
 		 *		'label_for'		=> [field label_for],
 		 *		'tab'			=> [tab slug],
 		 *		'section'		=> [section slug],
-		 *		'type'			=> [field type: text/password/number/textarea/select/multiselect/radio/checkbox/truefalse],
+		 *		'type'			=> [field type: text/password/number/textarea/select/multiselect/radio/checkbox],
 		 *		'placeholder'	=> [field placeholder],
 		 *		'options'		=> [array of field options: slugs and labels]
 		 *		'default'		=> [field default value]

@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Subscribe2 WPML
 * Plugin URI: http://www.htmline.com/
-* Description: Extension plugin for Subscribe2 - register users based on the current language
+* Description: Extension plugin for Subscribe2 - register subscribers based on the current language
 * Version: 1.0.0
 * Author: Nir Goldberg
 * Author URI: http://www.htmline.com/

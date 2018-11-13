@@ -46,11 +46,25 @@ function s2wpml_remove_data() {
 */
 function s2wpml_remove_options_data() {
 
+	// globals
+	global $wpdb;
+
 	// vars
-	$options = array(
-		's2wpml_general_default_lang'
+	$options_table	= $wpdb->prefix . 'options';
+	$options		= array(
+		's2wpml_general_default_lang',
 		's2wpml_uninstall_remove_data'
 	);
+
+	// append language based options
+	$general_default_cat_options = $wpdb->get_results(
+		"SELECT option_name FROM $options_table
+		 WHERE option_name like 's2wpml_general_default_cat%'", ARRAY_N
+	);
+
+	foreach ( $general_default_cat_options as $option ) {
+		$options[] = $option[0];
+	}
 
 	foreach ( $options as $option ) {
 		delete_option( $option );
@@ -80,6 +94,11 @@ function s2wpml_remove_db_data() {
 		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_lang'"
 	);
 
+	$cat_col = $wpdb->get_results(
+		"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_cat'"
+	);
+
 	$status_col = $wpdb->get_results(
 		"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
 		 WHERE TABLE_NAME = '$table' AND COLUMN_NAME = 's2wpml_status'"
@@ -87,6 +106,10 @@ function s2wpml_remove_db_data() {
 
 	if( ! empty( $lang_col ) ) {
 		$wpdb->query( "ALTER TABLE $table DROP COLUMN s2wpml_lang" );
+	}
+
+	if( ! empty( $cat_col ) ) {
+		$wpdb->query( "ALTER TABLE $table DROP COLUMN s2wpml_cat" );
 	}
 
 	if( ! empty( $status_col ) ) {
