@@ -194,6 +194,22 @@ class S2WPML_Admin extends S2_Admin {
 
 	}
 
+	/**
+	* add
+	*
+	* This function adds a public subscriber to the subscribers table
+	*
+	* @since		1.0.0
+	* @param		$email (string)
+	* @param		$confirm (boolean)
+	* @return		N/A
+	*/
+	function add( $email = '', $confirm = false ) {
+
+		s2wpml_core()->add( $email, $confirm );
+
+	}
+
 }
 
 endif; // class_exists check
