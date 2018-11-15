@@ -104,14 +104,16 @@ class S2WPML_Core {
 	/**
 	* assign_default_cat
 	*
-	* This function will assign the default categories for registered subscribers.
-	* This function will be called right after updating the default cat option
+	* This function will handle default categories assignment for registered subscribers.
+	* The function will be called in two cases:
+	* 1. Right after updating the default cat option - the function will assign the default categories for all registered subscribers
+	* 2. Adding a new subscriber - the function will return the default categories
 	*
 	* @since		1.0.0
-	* @param		N/A
-	* @return		N/A
+	* @param		$update_db (boolean) whether to update DB (true) or just return data (false)
+	* @return		(string)
 	*/
-	function assign_default_cat() {
+	function assign_default_cat( $update_db = true ) {
 
 		// globals
 		global $wpdb;
@@ -142,6 +144,10 @@ class S2WPML_Core {
 		}
 
 		$default_cat = implode( ',', (array) $default_cat );
+
+		if ( ! $update_db )
+			// return
+			return $default_cat;
 
 		$query = "UPDATE $table SET s2wpml_cat='$default_cat'";
 		$wpdb->query( $query );

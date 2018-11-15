@@ -102,15 +102,19 @@ class S2WPML {
 		// core
 		s2wpml_include( 'includes/class-s2wpml-core.php' );
 
-		// admin
 		if ( is_admin() ) {
 
+			// admin
 			// functions
 			s2wpml_include( 'includes/admin/settings-api.php' );
 
 			// actions
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );
 
+		} else {
+			// frontend
+			// api
+			s2wpml_include( 'includes/api/api-form.php' );
 		}
 
 		// actions
@@ -139,22 +143,23 @@ class S2WPML {
 		if ( ! did_action( 'plugins_loaded' ) )
 			return;
 
+		// globals
+		global $mysubscribe2;
+
+		if ( ! is_null( $mysubscribe2 ) ) {
+
+			remove_action( 'plugins_loaded', array( $mysubscribe2, 's2init' ) );
+			$mysubscribe2 = null;
+
+		}
+
 		// admin
 		if ( is_admin() ) {
-
-			// globals
-			global $mysubscribe2;
-
-			if ( ! is_null( $mysubscribe2 ) ) {
-
-				remove_action( 'plugins_loaded', array( $mysubscribe2, 's2init' ) );
-				$mysubscribe2 = null;
-
-				// classes
-				s2wpml_include( 'includes/classes/class-s2wpml-admin.php' );
-
-			}
-
+			// classes
+			s2wpml_include( 'includes/classes/class-s2wpml-admin.php' );
+		} else {
+			// classes
+			s2wpml_include( 'includes/classes/class-s2wpml-frontend.php' );
 		}
 
 	}
