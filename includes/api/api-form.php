@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * @param		$form (string)
  * @return		(string)
  */
-function s2wpml_form ( $form ) {
+function s2wpml_form( $form ) {
 
 	// get action URL
 	preg_match( '/(action=")([^"]*)(.*)/', $form, $matches );

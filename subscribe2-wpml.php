@@ -108,6 +108,9 @@ class S2WPML {
 			// functions
 			s2wpml_include( 'includes/admin/settings-api.php' );
 
+			// api
+			s2wpml_include( 'includes/api/api-submission.php' );
+
 			// actions
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );
 
